@@ -4,7 +4,7 @@ Welcome to my blog notes repository! Here, you'll find my personal collection of
 
 ## Table of Contents
 
-- [Notes](#notes)
+- [CleanCode Notes](https://github.com/alejovillores/notes/blob/master/my-books-notes.md#clean-code)
 - [Contributing](#contributing)
 - [License](#license)
 
