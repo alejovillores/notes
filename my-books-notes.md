@@ -265,3 +265,21 @@ Remember Ward’s principle: _“You know you are working on clean code when eac
 ### Function Arguments
 
 The ideal number of arguments for a function is zero (**niladic**). Next comes one (**monadic**), followed closely by two (**dyadic**). Three arguments (**triadic**) should be avoided where possible. More than three (**polyadic**) requires very special justification.
+
+### Flag Arguments
+
+Passing a boolean into a function is a truly terrible practice. It immediately complicates the signature of the method, loudly proclaiming that this function does more than one thing. It does one thing if the flag is true and another if the flag is false!
+
+The method call `render(true)` is just plain confusing to a poor reader. Always names must be positive `render(boolean isSuite)` helps a little,
+
+### Argument Objects
+
+When a function seems to need more than two or three arguments, it is likely that some of those arguments ought to be wrapped into a class of their own.
+
+```java
+Circle makeCircle(double x, double y, double radius);
+Circle makeCircle(Point center, double radius);
+```
+
+When groups of variables are passed together, the way x and
+y are in the example above, they are likely part of a concept that deserves a name of its own.
