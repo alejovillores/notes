@@ -323,3 +323,75 @@ public enum Error {
    WAITING_FOR_EVENT;
 }
 ```
+
+## Comments
+
+> “Don’t comment bad code—rewrite it.” —Brian W. Kernighan and P. J. Plaugher
+
+The proper use of comments is to compensate for our failure to express ourself in code. Comments are always failures. We must have them because we cannot always figure out how to express ourselves without them, but their use is not a cause for celebration.
+
+### Explain Yourself in Code
+
+```java
+// Check to see if the employee is eligible for full benefits
+if ((employee.flags & HOURLY_FLAG) &&
+   (employee.age > 65))
+
+Or this?
+
+if (employee.isEligibleForFullBenefits())
+```
+
+### Good Comments
+
+Copyright and authorship statements are necessary and reasonable things to put into a comment at the start of each source file.
+
+```java
+// format matched kk:mm:ss EEE, MMM dd, yyyy
+Pattern timeMatcher = Pattern.compile(
+"\\d*:\\d*:\\d* \\w*, \\w* \\d*, \\d*");
+```
+
+In this case the comment lets us know that the regular expression is intended to match a time and date that were formatted with the SimpleDateFormat.format function using the
+specified format string.
+
+Sometimes a comment goes beyond just useful information about the implementation and provides the intent behind a decision. In the following case we see an interesting decision
+documented by a comment.
+
+```java
+public int compareTo(Object o)
+{
+   if(o instanceof WikiPagePath) {
+      WikiPagePath p = (WikiPagePath) o;
+      String compressedName = StringUtil.join(names, "");
+      String compressedArgumentName = StringUtil.join(p.names, "");
+      return compressedName.compareTo(compressedArgumentName);
+   }
+   return 1; // we are greater because we are the right type.
+}
+```
+
+Sometimes it is useful to warn other pro-
+grammers about certain consequences. For example, here is a comment that explains why a particular test case is turned off:
+
+```java
+// Don't run unless you
+// have some time to kill.
+public void _testWithReallyBigFile()
+{
+   writeLinesToFile(10000000);
+   response.setBody(testFile);
+   response.readyToSend(this);
+   String responseString = output.toString();
+   assertSubString("Content-Length: 1000000000", responseString);
+   assertTrue(bytesSent > 1000000000);
+}
+```
+
+### TODO Comments
+
+The TODO comment explains why the function has a degenerate implementation and what that function’s future should be.TODOs are jobs that the programmer thinks should be done, but for some reason can’t do at the moment.
+
+Whatever else a TODO might be, it is not an excuse to _leave bad code_ in the system.
+
+### Bad Comments
