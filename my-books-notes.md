@@ -131,12 +131,18 @@ Don't use IInterface, just Interface
 
 When you are using some known pattern, it is good to chose a name for the variables that represents the patter that is it used.
 
+Remember that the people who read your code will be programmers. So go ahead and use
+computer science (CS) terms, algorithm names, pattern names, math terms, and so forth.
+
 ```java
 // If we are using a Abstract Factory
 class UserFactory
 
 // If we are using a Singleton
 class LoggeerSingleton
+
+//means a great deal to a programmer who is familiar with the VISITOR pattern.
+class AccountVisitor
 ```
 
 ### Classes and objects
@@ -151,3 +157,111 @@ Should have verb or verb phrase names like `postPayment, deletePage, or save`.
 
 Accessors, mutators, and predicates should be named for their value and prefixed with `get`,
 `set`, and `is`.
+
+## Functions
+
+### Small!
+
+The first rule of functions is that they should be small. _The second rule of functions is that
+they should be smaller than that_.
+
+**Functions should hardly ever be 20 lines long.**
+
+### Blocks and Indenting
+
+The blocks within if statements, else statements, while statements if they are one line long, {} must be avoid
+
+```c#
+if number % 2 == 0 ? return 'pair': return 'odd';
+
+if (number % 2 == 0){
+   return 'pair';
+}else{
+   return 'odd';
+}
+```
+
+### Do One Thing
+
+**FUNCTIONS SHOULD DO ONE THING. THEY SHOULD DO IT WELL.
+THEY SHOULD DO IT ONLY.**
+
+We can describe the function by describing it as a brief TO4 paragraph:\
+_TO RenderPageWithSetupsAndTeardowns, we check to see whether the page is a test page
+and if so, we include the setups and teardowns. In either case we render the page in
+HTML._
+
+If a function does only those steps that are one level below the stated name of the
+function, then the function is doing one thing.
+
+### Reading Code from Top to Bottom: The Stepdown Rule
+
+We want the code to read like a top-down narrative.5 We want every function to be fol-
+lowed by those at the next level of abstraction so that we can read the program, descending one level of abstraction at a time as we read down the list of functions.
+
+To say this differently, we want to be able to read the program as though it were a set
+of TO paragraphs, each of which is describing the current level of abstraction and refer-
+encing subsequent TO paragraphs at the next level down.
+
+> To include the setups and teardowns, we include setups, then we include the test page con- tent, and then we include the teardowns.
+>
+> > To include the setups, we include the suite setup if this is a suite, then we include the regular setup.\
+> > To include the suite setup, we search the parent hierarchy for the “SuiteSetUp” page and add an include statement with the path of that page.\
+> > To search the parent. . .
+
+### Switch Statements
+
+We can make sure that each switch statement is buried in a low-level class and is never repeated.
+
+```java
+public Money calculatePay(Employee e) throws InvalidEmployeeType {
+   switch (e.type) {
+      case COMMISSIONED:
+         return calculateCommissionedPay(e);
+      case HOURLY:
+         return calculateHourlyPay(e);
+      case SALARIED:
+         return calculateSalariedPay(e);
+      default:
+         throw new InvalidEmployeeType(e.type);
+   }
+}
+```
+
+But switch statements are not recommended as they violates SR because there is more than one reason for it to change, OC because it must change whenever new types are added
+
+The best thing to do is encapsulate this switch within a Factory
+
+```java
+public abstract class Employee {
+   public abstract boolean isPayday();
+   public abstract Money calculatePay();
+   public abstract void deliverPay(Money pay);
+}
+-----------------
+public interface EmployeeFactory {
+   public Employee makeEmployee(EmployeeRecord r) throws    InvalidEmployeeType;
+   }
+-----------------
+public class EmployeeFactoryImpl implements EmployeeFactory {
+
+   public Employee makeEmployee(EmployeeRecord r) throws   InvalidEmployeeType {
+      switch (r.type) {
+         case COMMISSIONED:
+            return new CommissionedEmployee(r) ;
+         case HOURLY:
+            return new HourlyEmployee(r);
+         case SALARIED:
+            return new SalariedEmploye(r);
+         default:
+            throw new InvalidEmployeeType(r.type);
+      }
+   }
+}
+```
+
+Remember Ward’s principle: _“You know you are working on clean code when each routine turns out to be pretty much what you expected.”_
+
+### Function Arguments
+
+The ideal number of arguments for a function is zero (**niladic**). Next comes one (**monadic**), followed closely by two (**dyadic**). Three arguments (**triadic**) should be avoided where possible. More than three (**polyadic**) requires very special justification.
