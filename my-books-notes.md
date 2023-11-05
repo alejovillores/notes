@@ -457,3 +457,65 @@ return this.pngBytes;
 Why are those two lines of code commented? Are they important? Were they left as
 reminders for some imminent change? Or are they just cruft that someone commented-out
 years ago and has simply not bothered to clean up.
+
+## Formating
+
+Code formatting is important. It is too important to ignore and
+it is too important to treat religiously. Code formatting is about communication, and
+communication is the professional developer’s first order of business.\
+The coding style and readability set precedents that continue to affect maintainability and extensibility long after the original code has been changed beyond recognition. Your style and discipline survives, even though your code does not.
+
+Consider the importance of respecting one blank line after each method
+
+```java
+package fitnesse.wikitext.widgets;
+
+import java.util.regex.*;
+
+public class BoldWidget extends ParentWidget {
+
+   public static final String REGEXP = "'''.+?'''";
+   private static final Pattern pattern = Pattern.compile("'''(.+?)'''", Pattern.MULTILINE + Pattern.DOTALL );
+
+   public BoldWidget(ParentWidget parent, String text) throws Exception {
+      super(parent);
+      Matcher match = pattern.matcher(text);
+      match.find();
+      addChildWidgets(match.group(1));
+   }
+
+   public String render() throws Exception {
+      StringBuffer html = new StringBuffer("<b>");
+      html.append(childHtml()).append("</b>");
+      return html.toString();
+   }
+}
+```
+
+And
+
+```java
+package fitnesse.wikitext.widgets;
+import java.util.regex.*;
+public class BoldWidget extends ParentWidget {
+   public static final String REGEXP = "'''.+?'''";
+   private static final Pattern pattern = Pattern.compile("'''(.+?)'''", Pattern.MULTILINE + Pattern.DOTALL );
+   public BoldWidget(ParentWidget parent, String text) throws Exception {
+      super(parent);
+      Matcher match = pattern.matcher(text);
+      match.find();
+      addChildWidgets(match.group(1));
+   }
+   public String render() throws Exception {
+      StringBuffer html = new StringBuffer("<b>");
+      html.append(childHtml()).append("</b>");
+      return html.toString();
+   }
+}
+```
+
+This effect is even more pronounced when you unfocus your eyes.
+
+### Horizontal Alignment
+
+![Alt text](horizontal_aligment.png)
