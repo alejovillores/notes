@@ -395,3 +395,42 @@ The TODO comment explains why the function has a degenerate implementation and w
 Whatever else a TODO might be, it is not an excuse to _leave bad code_ in the system.
 
 ### Bad Comments
+
+Redundant comments, that the code itself tells is considered bad comments
+
+```java
+// Utility method that returns when this.closed is true. Throws an exception
+// if the timeout is reached.
+public synchronized void waitForClose(final long timeoutMillis)
+throws Exception
+{
+   if( !closed )
+   {
+      wait(timeoutMillis);
+      if( !closed )
+         throw new Exception("MockResponseSender could not be closed");
+   }
+}
+```
+
+Sometimes you see comments that are nothing but noise. They restate the obvious and
+provide no new information.
+
+```java
+/** The day of the month. */
+private int dayOfMonth;
+```
+
+What is the pourpose of this!!!
+
+It is good to follow this rule --> **Don’t Use a Comment When You Can Use a Function or a Variable**
+
+Sometimes programmers like to mark a particular position in a source file. For example, I
+recently found this in a program I was looking through:
+
+```java
+// Actions //////////////////////////////////
+```
+
+There are rare times when it makes sense to gather certain functions together beneath a
+banner like this. But in general they are clutter that should be **eliminated**.
