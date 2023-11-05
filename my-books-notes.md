@@ -434,3 +434,26 @@ recently found this in a program I was looking through:
 
 There are rare times when it makes sense to gather certain functions together beneath a
 banner like this. But in general they are clutter that should be **eliminated**.
+
+Commented-Out Code -> TERRIBLE
+Consider this from apache commons:
+
+```java
+this.bytePos = writeBytes(pngIdBytes, 0);
+//hdrPos = bytePos;
+writeHeader();
+writeResolution();
+//dataPos = bytePos;
+if (writeImageData()) {
+   writeEnd();
+   this.pngBytes = resizeByteArray(this.pngBytes, this.maxPos);
+}
+else {
+   this.pngBytes = null;
+}
+return this.pngBytes;
+```
+
+Why are those two lines of code commented? Are they important? Were they left as
+reminders for some imminent change? Or are they just cruft that someone commented-out
+years ago and has simply not bothered to clean up.
